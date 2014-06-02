@@ -12,7 +12,12 @@ class ObjectTypeHelper extends AppHelper {
                 'Category' => __('Categories'),
                 'Subcategory' => __('Subcategories'),
                 'Product' => __('Products'),
-                'FormField' => __('Tech.params for subcategories')
+                'FormField' => __('Tech.params'),
+                'User' => __('Users'),
+                'UserGroup' => __('User groups'),
+                'Advertiser' => __('Advertisers'),
+                'Country' => __('Countries'),
+                'City' => __('Cities'),
             ), 
             'create' => array(
                 'Article' => __('Create Article'),
@@ -21,7 +26,12 @@ class ObjectTypeHelper extends AppHelper {
                 'Category' => __('Create Category'),
                 'Subcategory' => __('Create Subcategory'),
                 'Product' => __('Create Product'),
-                'FormField' => __('Create Parameter')
+                'FormField' => __('Create Parameter'),
+                'User' => __('Create User'),
+                'UserGroup' => __('Create user group'),
+                'Advertiser' => __('Create Advertiser'),
+                'Country' => __('Create Country'),
+                'City' => __('Create City'),
             ),
             'edit' => array(
                 'Article' => __('Edit Article'),
@@ -30,7 +40,11 @@ class ObjectTypeHelper extends AppHelper {
                 'Category' => __('Edit Category'),
                 'Subcategory' => __('Edit Subcategory'),
                 'Product' => __('Edit Product'),
-                'FormField' => __('Edit Parameter')
+                'User' => __('Edit User'),
+                'UserGroup' => __('Edit user group'),
+                'Advertiser' => __('Edit Advertiser'),
+                'Country' => __('Edit Country'),
+                'City' => __('Edit City'),
             )
         );
         return $Titles;

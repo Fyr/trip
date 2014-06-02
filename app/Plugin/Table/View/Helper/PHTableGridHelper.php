@@ -3,7 +3,8 @@ App::uses('AppHelper', 'View/Helper');
 class PHTableGridHelper extends AppHelper {
     public $helpers = array('Paginator', 'Html');
     private $paginate;
-        
+    
+    /*
     private function _getDefaults($modelName, $options = array()) {
         $defaulOptions = array(
             'baseURL' => $this->Html->url(array('')),
@@ -11,7 +12,7 @@ class PHTableGridHelper extends AppHelper {
         );
         return $defaulOptions;
     }
-
+	*/
     /**
      * Used to reassign Grid actions.
      *
@@ -38,6 +39,12 @@ class PHTableGridHelper extends AppHelper {
 		);
 		return compact('table', 'row', 'checked');
 	}
+	
+	public function getDefaultColumns($modelName) {
+		$aCols = $this->viewVar('_paginate.'.$modelName.'._columns');
+		$aKeys = Hash::extract($aCols, '{n}.key');
+		return array_combine($aKeys, $aCols);
+	}
 
 	public function render($modelName, $options = array()) {
 		$this->Html->css(array('/Table/css/grid', '/Icons/css/icons'), array('inline' => false));
@@ -51,7 +58,11 @@ class PHTableGridHelper extends AppHelper {
 			'count' => $this->Paginator->counter(array('model' => $modelName, 'format' => __('Shown {:start}-{:end} of {:count} records'))),
 		);
 		$defaults = Hash::get($this->paginate, '_defaults');
-		$options = Hash::merge($this->_getDefaults($modelName), $options);
+		$options['baseURL'] = (isset($options['baseURL'])) ? $options['baseURL'] : $this->Html->url(array(''));
+		$options['actions'] = (isset($options['actions'])) ? $options['actions'] : $this->getDefaultActions($modelName);
+		
+		$options['columns'] = (isset($options['columns'])) ? $options['columns'] : $this->getDefaultColumns($modelName);
+		$options['data'] = (isset($options['data'])) ? $options['data'] : $this->paginate['_rowset'];
 		
 		// Т.к. я добавил ключи в $actions, для JS их надо выкосить
 		$actions = $options['actions'];
@@ -62,17 +73,18 @@ class PHTableGridHelper extends AppHelper {
 		$html = '
 <span id="'.$container_id.'"></span>
 <script type="text/javascript">
+var '.$container_id.' = null;
 $(document).ready(function(){
 	var config = {
 		container: "#'.$container_id.'",
-		columns: '.json_encode($this->paginate['_columns']).',
-		data: '.json_encode($this->paginate['_rowset']).',
+		columns: '.json_encode(array_values($options['columns'])).',
+		data: '.json_encode($options['data']).',
 		paging: '.json_encode($paging).',
 		settings: {model: "'.$modelName.'", baseURL: "'.$options['baseURL'].'"},
 		defaults: '.json_encode($defaults).',
 		actions: '.json_encode($actions).'
 	};
-	var '.$container_id.' = new Grid(config);
+	'.$container_id.' = new Grid(config);
 });
 </script>
 ';

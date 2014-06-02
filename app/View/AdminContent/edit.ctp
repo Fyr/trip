@@ -16,10 +16,10 @@
         'General' => $this->element('/AdminContent/admin_edit_'.$objectType),
 		'Text' => $this->element('Article.edit_body')
     );
-    if ($objectType == 'Subcategory' && $objectID) {
-    	// $aTabs['Tech-params'] = $this->element('/AdminContent/admin_edit_Params');
-    }
     if ($id) {
+    	if ($objectType == 'Subcategory' && $objectID) {
+	    	$aTabs['Product Params'] = $this->element('/AdminContent/admin_edit_Params');
+	    }
         $aTabs['Media'] = $this->element('Media.edit', array('object_type' => $objectType, 'object_id' => $id));
     }
 	echo $this->element('admin_tabs', compact('aTabs'));

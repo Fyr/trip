@@ -3,7 +3,7 @@ App::uses('AdminController', 'Controller');
 class AdminProductsController extends AdminController {
     public $name = 'AdminProducts';
     public $components = array('Table.PCTableGrid', 'Article.PCArticle');
-    public $uses = array('Category', 'Subcategory', 'Product', 'Form.PMForm', 'Form.PMFormValue');
+    public $uses = array('Category', 'Subcategory', 'Advertiser', 'Product', 'Form.PMForm', 'Form.PMFormValue');
     public $helpers = array('ObjectType', 'Form.PHFormFields');
     
     public function beforeRender() {
@@ -35,7 +35,9 @@ class AdminProductsController extends AdminController {
 			if ($this->request->is('put')) {
 				// save product params only for updated product
 				$form = $this->PMForm->getObject('Subcategory', $this->request->data('Subcategory.id'));
-				$this->PMFormValue->saveForm('ProductParam', $id, $form['PMForm']['id'], $this->request->data('PMFormValue'));
+				if ($form && ($data = $this->request->data('PMFormValue'))) {
+					$this->PMFormValue->saveForm('ProductParam', $id, $form['PMForm']['id'], $data);
+				}
 			}
 			$baseRoute = array('action' => 'index');
 			return $this->redirect(($this->request->data('apply')) ? $baseRoute : array($id));
@@ -44,5 +46,6 @@ class AdminProductsController extends AdminController {
 		$subcat_id = $this->request->data('Subcategory.id');
 		$this->set('form', $this->PMForm->getFields('Subcategory', $subcat_id));
 		$this->set('formValues', $this->PMFormValue->getValues('ProductParam', $id));
+		$this->set('aAdvertisers', $this->Advertiser->find('list'));
 	}
 }

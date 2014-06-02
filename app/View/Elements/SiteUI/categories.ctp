@@ -1,9 +1,9 @@
-<ul class="side_navi_ul">
+<ul>
 <?
 	$subcat = $aSubcategories[0];
 ?>
 	<li id="cat-<?=$subcat['Category']['id']?>">
-		<div class="side_lvl_1_n"><a href=""><?=$subcat['Category']['title']?></a></div>
+		<a href=""><?=$subcat['Category']['title']?></a>
 		<ul>
 
 <?
@@ -14,14 +14,18 @@
 ?>
 		</ul>
 	</li>
-	<li id="cat-<?=$subcat['Category']['id']?>">
-		<div class="side_lvl_1_n"><a href=""><?=$subcat['Category']['title']?></a></div>
+<?
+			$current = (isset($currCat) && $currCat == $cat) ? ' class="current"' : '';
+?>
+	<li id="cat-<?=$subcat['Category']['id']?>"<?=$current?>>
+		<a href=""><?=$subcat['Category']['title']?></a>
 		<ul>
 <?			
 		}
 		$url = array('controller' => 'SiteProducts', 'action' => 'index', '?' => array('data[Product][cat_id]' => $subcat['Category']['id'], 'data[Product][subcat_id]' => $subcat['Subcategory']['id']));
+		$current = (isset($currSubcat) && $currSubcat == $subcat['Subcategory']['id']) ? ' class="active"' : '';
 ?>
-			<li><a href="<?=$this->Html->url($url)?>"><?=$subcat['Subcategory']['title']?></a></li>
+			<li<?=$current?>><a href="<?=$this->Html->url($url)?>"><?=$subcat['Subcategory']['title']?></a></li>
 <?
 	}
 ?>

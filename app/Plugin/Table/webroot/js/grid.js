@@ -167,7 +167,7 @@ Grid = function(config) {
 	}
 
 	this.getURLParams = function(){
-		var params = {}, col, cols = [], re, url = window.location.href;
+		var params = {}, col, cols = [], re, url = window.location.href, pos, pairs;
 		for(var i = 0; i < self.columns.length; i++) {
 			cols.push(self.columns[i].key);
 		}
@@ -175,13 +175,17 @@ Grid = function(config) {
 		cols.push('sort');
 		cols.push('direction');
 		cols.push('limit');
-		for(var i = 0; i < cols.length; i++) {
-			re = '(\\' + self.settings.urlDiv + '|\\' + self.settings.paramDiv + ')' + cols[i].replace(/\./, '\\.') + self.settings.valueDiv + '([0-9a-z\\-\\.]+)';
-			re = new RegExp(re, 'ig');
-			re = re.exec(url);
-			if (re && re.length >= 2) {
-				params[cols[i]] = re[2];
-			}
+		
+		pos = url.indexOf(self.settings.baseURL);
+		url = url.substr(pos + self.settings.baseURL.length);
+		pos = url.indexOf(self.settings.urlDiv)
+		if (pos >= 0) {
+			url = url.substr(pos + self.settings.urlDiv.length);
+		}
+		pairs = url.split(self.settings.paramDiv);
+		for(var i = 0; i < pairs.length; i++) {
+			col = pairs[i].split(self.settings.valueDiv);
+			params[col[0]] = decodeURI(col[1]);
 		}
 		return params;
 	}
@@ -321,6 +325,10 @@ Grid = function(config) {
 		html+= '</th>';
 		return html;
 	}
+	
+	this.getFilterID = function(col) {
+		return col.key.replace(/\./g, '-');
+	}
 
 	this.renderFilterBoolean = function(col, val) {
 		options = {'': '- any -', '1': 'yes', '0': 'no'};
@@ -337,7 +345,16 @@ Grid = function(config) {
 	}
 
 	this.renderFilterString = function(col, val) {
-		return '<input type="text" class="big-input grid-filter-input" rel="tooltip" name="' + self.getFilterName(col) + '" value="' + val + '">';
+		return Format.tag('input', {
+			id: 'grid-filter-' + self.getFilterID(col),
+			type: 'text', 
+			class: 'big-input grid-filter-input', 
+			rel: 'tooltip', 
+			name: self.getFilterName(col),
+			value: val,
+			title: '* - Any characters'
+		});
+		// return '<input type="text" class="big-input grid-filter-input" rel="tooltip" name="' + self.getFilterName(col) + '" value="' + val + '" title="* - Any characters">';
 	}
 
 	this.renderFilterSelect = function(col, options, val) {
@@ -580,9 +597,7 @@ Grid = function(config) {
 
 	this.bindCheckAll = function() {
 		$('.grid-chbx-checkAll', $self).change(function(){
-			console.log('grid-chbx-checkAll');
 			var allChecked = this.checked;
-			console.log($self.get(0));
 			$('.grid-chbx-row', $self).each(function(){
 				this.checked = allChecked;
 				var tr = $(this).parent().parent();
@@ -739,7 +754,7 @@ Grid = function(config) {
 		var pairs = [];
 		for(var key in params) {
 			// if (self.settings.baseURL) {
-				pairs.push(key + self.settings.valueDiv + params[key]);
+				pairs.push(key + self.settings.valueDiv + unescape(params[key]));
 			// } else {
 				// TODO: replace URL parts
 				// var re = new RegExp('/' + param + self.valueDiv + '/');

@@ -3,6 +3,8 @@ App::uses('AppModel', 'Model');
 App::uses('Article', 'Article.Model');
 App::uses('Media', 'Media.Model');
 App::uses('Category', 'Model');
+App::uses('Subcategory', 'Model');
+App::uses('Advertiser', 'Model');
 class Product extends Article {
 	
 	public $belongsTo = array(
@@ -11,6 +13,9 @@ class Product extends Article {
 		),
 		'Subcategory' => array(
 			'foreignKey' => 'subcat_id'
+		),
+		'Advertiser' => array(
+			'foreignKey' => 'adv_id'
 		),
 	);
 	public $hasOne = array(

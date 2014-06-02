@@ -1,27 +1,38 @@
-								<ul class="main_news_list">
+<style type="text/css">
+.product {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 10px;
+}
+.more {
+	float: right;
+}
+</style>
+<div class="section">
+	<?=$this->element('/SiteUI/page_title')?>
 <?
 	foreach($products as $article) {
-		$this->ArticleVars->init($article, 'Product', $url, $title, $teaser, $src, '315x');
+		$this->ArticleVars->init($article, 'Product', $url, $title, $teaser, $src, '150x');
 ?>
-									<li class="main_news_li">
-										<div class="main_col_img fixed">
-											<a href="<?=$url?>">
-												<span class="img_item_h"><?=$title?></span>
-												<span class="img_item_price"><?=$article['Product']['price']?>&nbsp;</span>
+	<div class="product">
+		<div style="float: left; width: 160px">
 <?
 		if ($src) {
 ?>
-												<img src="<?=$src?>" alt="<?=$title?>">
+			<a href="<?=$url?>"><img src="<?=$src?>" alt="<?=$title?>" style="margin-right: 10px"></a>
 <?
 		}
 ?>
-											</a>
-										</div>
-									</li>
+		</div>
+		<div class="side_news_h"><a href="<?=$url?>"><?=$title?></a></div>
+		<p><?=$teaser?></p>
+		<a class="more" href="<?=$url?>"><?=__('read more')?> &raquo; </a>
+		<div class="clearfix"></div>
+	</div>
 <?
 	}
 ?>
-								</ul>
 <?
 	echo $this->element('paginate');
 ?>
+</div>

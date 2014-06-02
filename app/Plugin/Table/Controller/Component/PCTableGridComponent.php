@@ -8,11 +8,8 @@ App::uses('Component', 'Controller');
 class PCTableGridComponent extends Component {
 	public $components = array('Paginator');
 
-	/**
-	 * Parent controller
-	 *
-	 * @var object
-	 */
+	const LIMIT = 1000;
+	
 	private $_;
 	private $model, $paginate = array(), $defaults = array();
 	private $pgFilter = array();
@@ -35,6 +32,15 @@ class PCTableGridComponent extends Component {
 	 */
 	private function _getDefaultOrder() {
 		//$order = array($this->model->name.'.'.$this->model->primaryKey => 'asc');
+		if (isset($this->paginate['order'])) {
+			/*
+			if (is_array($this->paginate['order'])) {
+				
+			}
+			return $this->_normalizeField($this->model->alias, $this->paginate['order']);
+			*/
+			return $this->paginate['order'];
+		}
 		if (in_array($this->model->alias.'.modified', $this->paginate['fields'])) {
 			$order = array($this->model->alias.'.modified' => 'desc');
 		} else if (in_array($this->model->alias.'.created', $this->paginate['fields'])) {
@@ -123,7 +129,7 @@ class PCTableGridComponent extends Component {
 
 	private function _initDefaults() {
 		$order = $this->_getDefaultOrder();
-		$limit = 10;
+		$limit = self::LIMIT;
 		$this->paginate = Hash::merge(array('order' => $order, 'limit' => $limit), $this->paginate);
 		list($sort) = array_keys($this->paginate['order']);
 		list($direction) = array_values($this->paginate['order']);
@@ -190,7 +196,14 @@ class PCTableGridComponent extends Component {
 			$this->pgFilter = array_merge($this->pgFilter, array($key.'>="'.$value.' 00:00:00"'));
 			$value = $key.'<="'.$value.' 23:59:59"';
 			$key = '';
+		} elseif ($type == 'string') {
+			if (strpos($value, '*') === false) {
+				$value.= '*'; // by default we search first chars in string
+			}
+			$value = $key.' LIKE "'.str_replace('*', '%', $value).'"';
+			$key = '';
 		}
+		
 		// add key->value pair to filter and overload existing pair
 		if ($key) {
 			$this->pgFilter[$key] = $value;

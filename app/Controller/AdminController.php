@@ -13,10 +13,18 @@ class AdminController extends AppController {
 		$this->aNavBar = array(
 			'Page' => array('label' => __('Static Pages'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'Page')),
 			// 'News' => array('label' => __('News'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'News')),
+			'Regions' => array('label' => __('Regions'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'Country')),
 			'Category' => array('label' => __('Categories'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'Category')),
-			// 'Forms' => array('label' => __('Tech.params'), 'href' => array('controller' => 'AdminFields', 'action' => 'index')),
-			// 'Products' => array('label' => __('Products'), 'href' => array('controller' => 'AdminProducts', 'action' => 'index')),
+			'Advertisement' => array('label' => __('Advertisement'), 'href' => '', 'submenu' => array(
+				'Forms' => array('label' => __('Product parameters'), 'href' => array('controller' => 'AdminFields', 'action' => 'index')),
+				'Advertisers' => array('label' => __('Advertisers'), 'href' => array('controller' => 'AdminAdvertisers', 'action' => 'index')),
+				'Products' => array('label' => __('Products'), 'href' => array('controller' => 'AdminProducts', 'action' => 'index')),
+			)),
 			// 'slider' => array('label' => __('Slider'), 'href' => array('controller' => 'AdminSlider', 'action' => 'index')),
+			'Users' => array('label' => __('Users'), 'href' => '', 'submenu' => array(
+				'UserGroups' => array('label' => __('Groups'), 'href' => array('controller' => 'AdminUserGroups', 'action' => 'index')),
+				'Users' => array('label' => __('Users'), 'href' => array('controller' => 'AdminUsers', 'action' => 'index'))
+			))
 			// 'settings' => array('label' => __('Settings'), 'href' => array('controller' => 'AdminSettings', 'action' => 'index'))
 		);
 		$this->aBottomLinks = $this->aNavBar;
@@ -50,9 +58,8 @@ class AdminController extends AppController {
 		$model = $this->request->query('model');
 		if ($model) {
 			$this->loadModel($model);
-			list($plugin, $model) = explode('.',$model);
-			if (!$model) {
-			    $model = $plugin;
+			if (strpos($model, '.') !== false) {
+				list($plugin, $model) = explode('.',$model);
 			}
 			$this->{$model}->delete($id);
 		}

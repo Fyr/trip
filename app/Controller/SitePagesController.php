@@ -7,6 +7,9 @@ class SitePagesController extends SiteController {
 	// public $helpers = array('ArticleVars');
 
 	public function home() {
+		$this->layout = 'home';
+		$this->currLink = 'Home';
+		/*
 		$this->currMenu = 'Home';
 		
 		// Welcome block
@@ -21,6 +24,7 @@ class SitePagesController extends SiteController {
 		// Новинки
 		$products = $this->Product->find('all', array('conditions' => array('Product.published' => 1), 'order' => 'Product.created DESC', 'limit' => 2));
 		$this->set('products', $products);
+		*/
 	}
 	
 	public function view($slug) {
