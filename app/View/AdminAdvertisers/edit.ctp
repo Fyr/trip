@@ -1,8 +1,15 @@
 <div class="span8 offset2">
 <?
-    $id = $this->request->data('User.id');
+    $id = $this->request->data('Advertiser.id');
     $title = $this->ObjectType->getTitle(($id) ? 'edit' : 'create', $objectType);
     echo $this->element('admin_title', compact('title'));
+    if ($id) {
+		echo $this->Html->link(
+			'<i class="icon-search"></i> '.__('Preview'), 
+			array('controller' => 'SiteAdvertisers', 'action' => 'view', $this->request->data('Advertiser.slug')), 
+			array('escape' => false, 'class' => 'pull-right btn btn-mini', 'target' => '_blank')
+		);
+	}
     echo $this->PHForm->create('Advertiser');
     // echo $this->element('admin_content');
 	$aTabs = array(

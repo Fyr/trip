@@ -1,8 +1,10 @@
 <ul>
 <?
 	$subcat = $aSubcategories[0];
+	$cat = $subcat['Category']['id'];
+	$current = (isset($currCat) && $currCat == $cat) ? ' class="current"' : '';
 ?>
-	<li id="cat-<?=$subcat['Category']['id']?>">
+	<li id="cat-<?=$subcat['Category']['id']?>"<?=$current?>>
 		<a href=""><?=$subcat['Category']['title']?></a>
 		<ul>
 

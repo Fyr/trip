@@ -10,7 +10,8 @@ class ArticleVarsHelper extends AppHelper {
 			'News' => 'SiteNews',
 			'Product' => 'SiteProducts'
 		);
-		$url = Router::url(array('controller' => $aController[$objectType], 'action' => 'view', $id)); // $this->Router->url($aArticle);
+		$controller = (isset($aController[$objectType]) ? $aController[$objectType] : '');
+		$url = Router::url(array('controller' => $controller, 'action' => 'view', $id)); // $this->Router->url($aArticle);
 		$title = $aArticle[$objectType]['title'];
 		$teaser = nl2br($aArticle[$objectType]['teaser']);
 		$src = (isset($aArticle['Media']) && $aArticle['Media'] && isset($aArticle['Media']['id']) && $aArticle['Media']['id']) 

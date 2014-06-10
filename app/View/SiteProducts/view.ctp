@@ -6,7 +6,7 @@
 	<?=$this->element('/SiteUI/page_title')?>
 	<b><?=__('Category')?></b>: <?=$article['Category']['title']?><br/>
 	<b><?=__('Subcategory')?></b>: <a href="<?=$url?>"><?=$article['Subcategory']['title']?></a><br/>
-	<b><?=__('Advertiser')?></b>: <a href="<?=$this->Html->url(array('controller' => 'SiteAdvertisers', 'action' => 'view', $article['Advertiser']['slug']))?>"><?=$article['Advertiser']['title']?></a><br/>
+	<b><?=__('Owner')?></b>: <a href="<?=$this->Html->url(array('controller' => 'SiteAdvertisers', 'action' => 'view', $article['Advertiser']['slug']))?>"><?=$article['Advertiser']['title']?></a><br/>
 	<br/>
 <?
 	if ($aMedia) {

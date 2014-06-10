@@ -4,22 +4,24 @@ App::uses('SiteController', 'Controller');
 class SiteProductsController extends SiteController {
 	public $name = 'SiteProducts';
 	public $uses = array('Product', 'Form.PMFormValue', 'Category', 'Subcategory');
+	
+	const LIMIT = 10;
 
 	public function index() {
 		$this->pageTitle = __('Products');
 		$this->paginate = array(
 			'conditions' => array('Product.published' => 1),
-			'limit' => 2, 
+			'limit' => self::LIMIT, 
 			'order' => 'Product.created DESC'
 		);
-		$this->paginate['conditions'] = array_merge($this->paginate['conditions'], $this->postConditions($this->params->query['data']));
+		if (isset($this->params->query['data'])) {
+			$this->paginate['conditions'] = array_merge($this->paginate['conditions'], $this->postConditions($this->params->query['data']));
+		}
 		$this->set('products', $this->paginate('Product'));
-		
 		if ($cat_id = Hash::get($this->params->query, 'data.Product.cat_id')) {
 			$cat = $this->Category->findById($cat_id);
 			$this->set('currCat', $cat_id);
 			$this->pageTitle = $cat['Category']['title'];
-			
 		}
 		
 		if ($subcat_id = Hash::get($this->params->query, 'data.Product.subcat_id')) {

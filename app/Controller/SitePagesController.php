@@ -3,28 +3,15 @@ App::uses('AppController', 'Controller');
 App::uses('SiteController', 'Controller');
 class SitePagesController extends SiteController {
 	public $name = 'SitePages';
-	public $uses = array('Page', 'News', 'Product');
+	public $uses = array('Page', 'News', 'Product', 'Category');
 	// public $helpers = array('ArticleVars');
 
 	public function home() {
 		$this->layout = 'home';
 		$this->currLink = 'Home';
-		/*
-		$this->currMenu = 'Home';
 		
-		// Welcome block
-		$article = $this->Page->findBySlug('home');
-		$this->set('home_article', $article);
-		$this->pageTitle = $article['Page']['title'];
-		
-		// Новости
-		$news = $this->News->find('all', array('conditions' => array('News.published' => 1), 'order' => 'News.created DESC', 'limit' => 2));
-		$this->set('news', $news);
-		
-		// Новинки
-		$products = $this->Product->find('all', array('conditions' => array('Product.published' => 1), 'order' => 'Product.created DESC', 'limit' => 2));
-		$this->set('products', $products);
-		*/
+		$aCategories = $this->Category->find('all');
+		$this->set('aCategoryArticles', $aCategories);
 	}
 	
 	public function view($slug) {

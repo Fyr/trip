@@ -6,8 +6,8 @@ class SiteAdvertisersController extends SiteController {
 	public $uses = array('Advertiser');
 	// public $helpers = array('ArticleVars');
 	
-	public function view($id) {
-		$article = $this->Advertiser->findById($id);
+	public function view($slug) {
+		$article = $this->Advertiser->findBySlug($slug);
 		$this->pageTitle = $article['Advertiser']['title'];
 		$this->set('article', $article);
 	}
