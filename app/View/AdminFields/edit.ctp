@@ -1,5 +1,5 @@
 <div class="span8 offset2">
-<?
+<?php
     $id = $this->request->data('FormField.id');
     $title = $this->ObjectType->getTitle(($id) ? 'edit' : 'create', $objectType);
     echo $this->element('admin_title', compact('title'));
@@ -19,11 +19,11 @@
 function FieldType_onChange(e) {
 	var $options = $('#FormFieldOptions').closest('.control-group');
 	$options.hide();
-	if ($(e).val() == <?=$FormField__SELECT?>) {
+	if ($(e).val() == <?=$FormField__SELECT?> || $(e).val() == <?=$FormField__MULTISELECT?>) {
 		$options.show();
 	}
 }
 $(document).ready(function(){
-	FieldType_onChange($('#FormFieldFieldType').val());
+	FieldType_onChange($('#FormFieldFieldType'));
 });
 </script>
