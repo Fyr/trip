@@ -17,6 +17,7 @@
 		'Description' => $this->PHForm->editor('descr', array('fullwidth' => true)),
 		'Contacts' => $this->PHForm->editor('contacts', array('fullwidth' => true)),
 		'Booking' => $this->PHForm->editor('booking', array('fullwidth' => true)),
+		'Company' => $this->element('/AdminAdvertisers/company'),
 	);
 	if ($id) {
         $aTabs['Logo'] = $this->element('Media.edit', array('object_type' => $objectType, 'object_id' => $id));
