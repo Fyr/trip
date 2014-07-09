@@ -37,4 +37,12 @@ $(document).ready(function(){
 <?
 	}
 ?>
+<?php if ($related) { ?>
+<h3><?=__('Related')?></h3>
+<ul>
+<?php foreach($related as $rel) : ?>
+    <li><?= $this->Html->link($rel['Product']['title'], array('controller' => 'SiteProducts', 'action' => 'view', $rel['Product']['id'])) ?></li>
+<?php endforeach; ?>
+</ul>
+<?php } ?>
 </div>

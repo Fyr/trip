@@ -3,7 +3,7 @@ App::uses('AdminController', 'Controller');
 class AdminProductsController extends AdminController {
     public $name = 'AdminProducts';
     public $components = array('Table.PCTableGrid', 'Article.PCArticle');
-    public $uses = array('Category', 'Subcategory', 'Advertiser', 'Product', 'Form.PMForm', 'Form.PMFormValue');
+    public $uses = array('Category', 'Subcategory', 'Advertiser', 'Product', 'Form.PMForm', 'Form.PMFormValue', 'Tags.Tag', 'Tags.TagObject');
     public $helpers = array('ObjectType', 'Form.PHFormFields');
     
     public function beforeRender() {
@@ -38,6 +38,18 @@ class AdminProductsController extends AdminController {
 				if ($form && ($data = $this->request->data('PMFormValue'))) {
 					$this->PMFormValue->saveForm('ProductParam', $id, $form['PMForm']['id'], $data);
 				}
+				// delete tags
+				$this->TagObject->deleteAll(array('object_id' => $id));
+				// save tags
+				$useTags = explode(',', $this->request->data['Tag']['tags']);
+				foreach ($useTags as $tag) {
+				    $this->TagObject->create();
+				    $this->TagObject->save(array(
+					'tag_id' => $tag,
+					'object_type' => 'Product',
+					'object_id' => $id
+				    ));
+				}
 			}
 			$baseRoute = array('action' => 'index');
 			return $this->redirect(($this->request->data('apply')) ? $baseRoute : array($id));
@@ -47,5 +59,14 @@ class AdminProductsController extends AdminController {
 		$this->set('form', $this->PMForm->getFields('Subcategory', $subcat_id));
 		$this->set('formValues', $this->PMFormValue->getValues('ProductParam', $id));
 		$this->set('aAdvertisers', $this->Advertiser->find('list'));
+		// Tags
+		$allProductTags = '';
+		if ($id) {
+		    if ($allProductTags = $this->TagObject->find('list', array('fields' => array('tag_id'), 'conditions' => array('object_id' => $id)))) {
+			$allProductTags = implode(',', $allProductTags);
+		    }
+		}
+		$this->PCTableGrid->paginate('Tag');
+		$this->set('allProductTags', $allProductTags);
 	}
 }

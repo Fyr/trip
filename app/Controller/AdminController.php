@@ -19,6 +19,7 @@ class AdminController extends AppController {
 				'Forms' => array('label' => __('Product parameters'), 'href' => array('controller' => 'AdminFields', 'action' => 'index')),
 				'Advertisers' => array('label' => __('Advertisers'), 'href' => array('controller' => 'AdminAdvertisers', 'action' => 'index')),
 				'Products' => array('label' => __('Products'), 'href' => array('controller' => 'AdminProducts', 'action' => 'index')),
+				'Tags' => array('label' => __('Tags'), 'href' => array('controller' => 'AdminTags', 'action' => 'index')),
 			)),
 			// 'slider' => array('label' => __('Slider'), 'href' => array('controller' => 'AdminSlider', 'action' => 'index')),
 			'Users' => array('label' => __('Users'), 'href' => '', 'submenu' => array(

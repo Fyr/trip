@@ -18,6 +18,7 @@ class ObjectTypeHelper extends AppHelper {
                 'Advertiser' => __('Advertisers'),
                 'Country' => __('Countries'),
                 'City' => __('Cities'),
+		'Tag' => __('Tags'),
             ), 
             'create' => array(
                 'Article' => __('Create Article'),
@@ -32,6 +33,7 @@ class ObjectTypeHelper extends AppHelper {
                 'Advertiser' => __('Create Advertiser'),
                 'Country' => __('Create Country'),
                 'City' => __('Create City'),
+		'Tag' => __('Create Tags'),
             ),
             'edit' => array(
                 'Article' => __('Edit Article'),
@@ -45,6 +47,7 @@ class ObjectTypeHelper extends AppHelper {
                 'Advertiser' => __('Edit Advertiser'),
                 'Country' => __('Edit Country'),
                 'City' => __('Edit City'),
+		'Tag' => __('Edit Tags'),
             )
         );
         return $Titles;

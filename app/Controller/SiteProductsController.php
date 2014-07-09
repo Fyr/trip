@@ -3,7 +3,7 @@ App::uses('AppController', 'Controller');
 App::uses('SiteController', 'Controller');
 class SiteProductsController extends SiteController {
 	public $name = 'SiteProducts';
-	public $uses = array('Product', 'Form.PMFormValue', 'Category', 'Subcategory');
+	public $uses = array('Product', 'Form.PMFormValue', 'Category', 'Subcategory', 'Tags.TagObject');
 	
 	const LIMIT = 10;
 
@@ -39,5 +39,10 @@ class SiteProductsController extends SiteController {
 		$this->set('aMedia', $this->Media->getObjectList('Product', $id));
 		$this->set('currCat', $article['Category']['id']);
 		$this->set('currSubcat', $article['Subcategory']['id']);
+		// tags
+		if ($useTags = $this->TagObject->getUseTags($id)) {
+		    $related = $this->TagObject->getRelatedProducts($useTags, $id);
+		}
+		$this->set('related', $related ? $related : array());
 	}
 }
