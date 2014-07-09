@@ -43,12 +43,14 @@ class AdminProductsController extends AdminController {
 				// save tags
 				$useTags = explode(',', $this->request->data['Tag']['tags']);
 				foreach ($useTags as $tag) {
-				    $this->TagObject->create();
-				    $this->TagObject->save(array(
-					'tag_id' => $tag,
-					'object_type' => 'Product',
-					'object_id' => $id
-				    ));
+				    if (intval($tag)) {
+					$this->TagObject->create();
+					$this->TagObject->save(array(
+					    'tag_id' => $tag,
+					    'object_type' => 'Product',
+					    'object_id' => $id
+					));
+				    }
 				}
 			}
 			$baseRoute = array('action' => 'index');
