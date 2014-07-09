@@ -23,7 +23,7 @@ class AdminController extends AppController {
 			)),
 			// 'slider' => array('label' => __('Slider'), 'href' => array('controller' => 'AdminSlider', 'action' => 'index')),
 			'Users' => array('label' => __('Users'), 'href' => '', 'submenu' => array(
-				'UserGroups' => array('label' => __('Groups'), 'href' => array('controller' => 'AdminUserGroups', 'action' => 'index')),
+				//'UserGroups' => array('label' => __('Groups'), 'href' => array('controller' => 'AdminUserGroups', 'action' => 'index')),
 				'Users' => array('label' => __('Users'), 'href' => array('controller' => 'AdminUsers', 'action' => 'index'))
 			))
 			// 'settings' => array('label' => __('Settings'), 'href' => array('controller' => 'AdminSettings', 'action' => 'index'))
@@ -32,6 +32,15 @@ class AdminController extends AppController {
 	}
 	
 	public function beforeFilter() {
+	    if (!$this->isAdmin()) {
+		    unset($this->aNavBar['Regions']);
+		    unset($this->aNavBar['Category']);
+		    unset($this->aNavBar['Advertisement']['submenu']['Forms']);
+		    unset($this->aNavBar['Advertisement']['submenu']['Tags']);
+		    unset($this->aNavBar['Advertisement']['submenu']['Advertisers']);
+		    unset($this->aNavBar['Users']);
+		    unset($this->aNavBar['Page']);
+	    }
 	    $this->currMenu = $this->_getCurrMenu();
 	    $this->currLink = $this->currMenu;
 	}
@@ -71,4 +80,7 @@ class AdminController extends AppController {
 		$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
 	}
 	
+	public function isAdmin() {
+		return AuthComponent::user('id') == 1;
+	}
 }

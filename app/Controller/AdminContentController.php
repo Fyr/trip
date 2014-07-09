@@ -8,15 +8,15 @@ class AdminContentController extends AdminController {
     
     public function index($objectType, $objectID = '') {
     	// $this->loadModel($objectType);
-        $this->paginate = array(
-            'Page' => array(
-            	'fields' => array('title', 'slug')
-            ),
+	$this->paginate = array(
+		'Page' => array(
+		    'fields' => array('title', 'slug')
+		),
         	'News' => array(
         		'fields' => array('id', 'created', 'title', 'teaser', 'featured', 'published')
         	),
         	'Category' => array(
-        		'fields' => array('id', 'title')
+		    'fields' => array('id', 'title')
         	),
         	'Subcategory' => array(
         		'conditions' => array('Subcategory.object_id' => $objectID),

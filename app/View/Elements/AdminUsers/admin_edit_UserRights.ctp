@@ -1,12 +1,12 @@
 <?
-	echo $this->element('Form.form_fields');
-	echo $this->PHForm->hidden('User.field_rights', array('value' => $this->request->data('User.field_rights')));
+	echo $this->PHTableGrid->render('Category');
+	echo $this->PHForm->hidden('User.category_rights', array('value' => $this->request->data('User.category_rights')));
 ?>
 <script type="text/javascript">
 $(document).ready(function(){
-	var $grid = $('#grid_FormField');
+	var $grid = $('#grid_Category');
 	
-	var vals = $('#UserFieldRights').val().split(',');
+	var vals = $('#UserCategoryRights').val().split(',');
 	for(var i = 0; i < vals.length; i++) {
 		$('.grid-chbx-row[value=' + vals[i] + ']', $grid).click();
 	}
@@ -15,7 +15,7 @@ $(document).ready(function(){
 		$('.grid-chbx-row:checked', $grid).each(function(){
 			vals.push($(this).val());
 		});
-		$('#UserFieldRights').val(vals.join(','));
+		$('#UserCategoryRights').val(vals.join(','));
 	});
 });
 </script>
