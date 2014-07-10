@@ -11,9 +11,10 @@ class AdminProductsController extends AdminController {
         $this->set('objectType', $this->Product->objectType);
     }
     
-    private function _getCategoryRights() {
+    private function _getCategoryRights($fieldId = false) {
         $userData = $this->User->findById(AuthComponent::user('id'));
-        return ($userData['User']['category_rights']) ? array('Product.cat_id' => explode(',', $userData['User']['category_rights'])) : false;
+	$fields = $fieldId ? 'id' : 'Product.cat_id';
+        return ($userData['User']['category_rights']) ? array($fields => explode(',', $userData['User']['category_rights'])) : false;
     }
     
     public function index() {
@@ -31,7 +32,7 @@ class AdminProductsController extends AdminController {
         $this->loadModel('Media.Media');
         $this->set('aCategories', $this->Category->find('list', array(
             'conditions' => array(
-            'id' => $this->_getCategoryRights()
+		$this->_getCategoryRights(true)
             )
         )));
         $this->set('aSubcategories', $this->Subcategory->find('all', array(
