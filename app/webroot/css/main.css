@@ -156,6 +156,8 @@ a:hover img{opacity: 0.8;}
 .middle_col{width: 522px;float: left;font-size: 13px;}
 .middle_col a{color: #d3298a;}
 .middle_col a:hover{color: #ea50a8;}
+.middle_col .infoParam {padding-left: 15px;}
+.middle_col .infoParam p {margin-bottom: 0;}
 .article_img{margin-right: 10px;margin-bottom: 5px;}
 .section{padding: 10px;-webkit-border-radius: 7px;-moz-border-radius: 7px;border-radius: 7px;border: 1px solid  #a5e1ff;margin-bottom: 5px;}
 .section_h{margin-left: -6px;margin-right: -6px;border-bottom: 1px solid  #000;padding-left: 6px;margin-bottom: 10px;padding-bottom: 6px;font-family: 'ralentabold';color: #ea50a8;text-transform: uppercase;font-size: 15px;}
