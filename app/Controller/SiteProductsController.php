@@ -43,6 +43,6 @@ class SiteProductsController extends SiteController {
 		if ($useTags = $this->TagObject->getUseTags($id)) {
 		    $related = $this->TagObject->getRelatedProducts($useTags, $id);
 		}
-		$this->set('related', $related ? $related : array());
+		$this->set('related', isset($related) ? $related : array());
 	}
 }
