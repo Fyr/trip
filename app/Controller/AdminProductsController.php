@@ -13,16 +13,16 @@ class AdminProductsController extends AdminController {
     
     private function _getCategoryRights() {
         $userData = $this->User->findById(AuthComponent::user('id'));
-        return ($userData['User']['category_rights']) ? explode(',', $userData['User']['category_rights']) : array();
+        return ($userData['User']['category_rights']) ? array('Product.cat_id' => explode(',', $userData['User']['category_rights'])) : false;
     }
     
     public function index() {
 
         $this->paginate = array(
-        'fields' => array('id', 'created', 'title', 'teaser', 'published'),
-        'conditions' => array(
-        'Product.cat_id' => $this->_getCategoryRights()
-        )
+	    'fields' => array('id', 'created', 'title', 'teaser', 'published'),
+	    'conditions' => array(
+		$this->_getCategoryRights()
+	    )
         );
         $this->PCTableGrid->paginate('Product');
     }
