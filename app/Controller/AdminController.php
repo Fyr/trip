@@ -28,7 +28,6 @@ class AdminController extends AppController {
 			))
 			// 'settings' => array('label' => __('Settings'), 'href' => array('controller' => 'AdminSettings', 'action' => 'index'))
 		);
-		$this->aBottomLinks = $this->aNavBar;
 	}
 	
 	public function beforeFilter() {
@@ -43,6 +42,7 @@ class AdminController extends AppController {
 	    }
 	    $this->currMenu = $this->_getCurrMenu();
 	    $this->currLink = $this->currMenu;
+	    $this->aBottomLinks = $this->aNavBar;
 	}
 
 	public function index() {
