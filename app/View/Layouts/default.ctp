@@ -16,6 +16,7 @@
 	echo $this->Html->script(array(
 		'vendor/modernizr-2.6.2.min',
 		'vendor/jquery/jquery-1.8.3.min',
+		'vendor/jquery/jquery.fancybox',
 		'plugins',
 		'prettify',
 		'main',
