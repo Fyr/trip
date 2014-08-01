@@ -23,7 +23,8 @@ class AdminProductsController extends AdminController {
 	    'fields' => array('id', 'created', 'title', 'teaser', 'published'),
 	    'conditions' => array(
 		$this->_getCategoryRights()
-	    )
+	    ),
+	    'limit' => 50
         );
         $this->PCTableGrid->paginate('Product');
     }

@@ -11,7 +11,8 @@ class AdminAdvertisersController extends AdminController {
     
     public function index() {
     	$this->paginate = array(
-    		'fields' => array('id', 'created', 'title', 'slug', 'teaser', 'active')
+    		'fields' => array('id', 'created', 'title', 'slug', 'teaser', 'active'),
+		'limit' => 50
     	);
     	$this->PCTableGrid->paginate('Advertiser');
     }
