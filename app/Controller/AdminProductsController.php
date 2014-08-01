@@ -3,7 +3,7 @@ App::uses('AdminController', 'Controller');
 class AdminProductsController extends AdminController {
     public $name = 'AdminProducts';
     public $components = array('Table.PCTableGrid', 'Article.PCArticle', 'Auth');
-    public $uses = array('Category', 'Subcategory', 'Advertiser', 'Product', 'Form.PMForm', 'Form.PMFormValue', 'Tags.Tag', 'Tags.TagObject', 'User');
+    public $uses = array('Category', 'Subcategory', 'Advertiser', 'Product', 'Form.PMForm', 'Form.PMFormValue', 'Tags.Tag', 'Tags.TagObject', 'User', 'Country', 'Province', 'City', 'Area');
     public $helpers = array('ObjectType', 'Form.PHFormFields');
     
     public function beforeRender() {
@@ -83,5 +83,59 @@ class AdminProductsController extends AdminController {
         }
         $this->PCTableGrid->paginate('Tag');
         $this->set('allProductTags', $allProductTags);
+	//
+	$aCountry = $this->Country->find('list');
+	$aProvince_ = $this->Province->find('all');
+	$aCity_ = $this->City->find('all');
+	$aArea_ = $this->Area->find('all');
+	
+	foreach ($aCountry as $cKey => $cName) {
+	    foreach ($aProvince_ as $pKey => $pName) {
+		if ($cKey == $aProvince_[$pKey]['Province']['country_id']) {
+		    $aProvince[$cName][$aProvince_[$pKey]['Province']['id']] = $aProvince_[$pKey]['Province']['title'];
+		}
+	    }
+	}
+	foreach ($aProvince_ as $pKey => $pName) {
+	    foreach ($aCity_ as $cKey => $cName) {
+		if ($aProvince_[$pKey]['Province']['id'] == $aCity_[$cKey]['City']['province_id']) {
+		    $aCity[$aProvince_[$pKey]['Province']['title']][$aCity_[$cKey]['City']['id']] = $aCity_[$cKey]['City']['title'];
+		}
+	    }
+	}
+	foreach ($aCity_ as $cKey => $cName) {
+	    foreach ($aArea_ as $aKey => $aName) {
+		if ($aCity_[$cKey]['City']['id'] == $aArea_[$aKey]['Area']['city_id']) {
+		    $aArea[$aCity_[$cKey]['City']['title']][$aArea_[$aKey]['Area']['id']] = $aArea_[$aKey]['Area']['title'];
+		}
+	    }
+	}
+
+	$this->set('aCountry', isset($aCountry) ? $aCountry : array());
+	$this->set('aProvince', isset($aProvince) ? $aProvince : array());
+	$this->set('aCity', isset($aCity) ? $aCity : array());
+	$this->set('aArea', isset($aArea) ? $aArea : array());
+	
+	if ($id) {
+	    $areaId = $this->Product->find('first', array('conditions' => array('Product.id' => $id)));
+	    if (isset($areaId['Product']['area_id'])) {
+		//найдем id города
+		$cityId = $this->Area->find('first', array('conditions' => array('Area.id' => $areaId['Product']['area_id'])));
+		$cityId = $this->City->find('first', array('conditions' => array('City.id' => $cityId['Area']['city_id'])));
+		if (isset($cityId['City']['id'])) {
+		    //найдем id области
+		    $provinceId = $this->Province->find('first', array('conditions' => array('Province.id' => $cityId['City']['province_id'])));
+		    if (isset($provinceId['Province']['id'])) {
+		    	//найдем id страны
+			$countryId = $provinceId['Province']['country_id'];
+			
+			$this->set('countryId', $countryId);
+			$this->set('provinceId', $provinceId['Province']['id']);
+			$this->set('cityId', $cityId['City']['id']);
+			$this->set('areaId', $areaId['Product']['area_id']);
+		    }
+		}
+	    }
+	}
     }
 }

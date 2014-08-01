@@ -16,7 +16,8 @@
     $aTabs = array(
         'General' => $this->element('/AdminContent/admin_edit_'.$objectType),
 	'Text' => $this->element('Article.edit_body'),
-	'Tags' => $this->element('Tags.tags_body')
+	'Tags' => $this->element('Tags.tags_body'),
+	'Region' => $this->element('/AdminContent/admin_edit_region', array('aCountry' => $aCountry))
     );
     if ($id) {
     	$aTabs['Product params'] = $this->PHFormFields->render($form, $formValues);// $this->element('Form.show_form_fields', array('form' => $form));

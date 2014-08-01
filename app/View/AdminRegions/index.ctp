@@ -9,16 +9,8 @@
     $actions['table']['add']['href'] = $createURL;
     $actions['table']['add']['label'] = $createTitle;
 
-    if ($objectType == 'Country') {
-    	$actions['row']['edit']['href'] = $this->Html->url(array('action' => 'edit')).'/{$id}/Country';
-    	$actions['row'][] = array(
-    		'label' => $this->ObjectType->getTitle('index', 'City'), 
-    		'class' => 'icon-color icon-open-folder', 
-    		'href' => $this->Html->url(array('action' => 'index', 'City')).'/{$id}'
-    	);
-    } elseif ($objectType == 'City') {
-    	$actions['row']['edit']['href'] = $this->Html->url(array('action' => 'edit')).'/{$id}/City';
-    } 
+    $actions['row']['edit']['href'] = $this->Html->url(array('action' => 'edit')).'/{$id}/'.$objectType;
+
 ?>
 <?=$this->element('admin_title', compact('title'))?>
 <div class="text-center">

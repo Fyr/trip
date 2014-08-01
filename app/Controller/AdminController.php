@@ -13,7 +13,12 @@ class AdminController extends AppController {
 		$this->aNavBar = array(
 			'Page' => array('label' => __('Static Pages'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'Page')),
 			// 'News' => array('label' => __('News'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'News')),
-			'Regions' => array('label' => __('Regions'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'Country')),
+			'Regions' => array('label' => __('Regions'), 'href' => '', 'submenu' => array(
+				'Countries' => array('label' => __('Countries'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'Country')),
+				'Provincies' => array('label' => __('Provincies'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'Province')),
+				'Cities' => array('label' => __('Cities'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'City')),
+				'Areas' => array('label' => __('Areas'), 'href' => array('controller' => 'AdminRegions', 'action' => 'index', 'Area')),
+			)),
 			'Category' => array('label' => __('Categories'), 'href' => array('controller' => 'AdminContent', 'action' => 'index', 'Category')),
 			'Advertisement' => array('label' => __('Advertisement'), 'href' => '', 'submenu' => array(
 				'Forms' => array('label' => __('Product parameters'), 'href' => array('controller' => 'AdminFields', 'action' => 'index')),

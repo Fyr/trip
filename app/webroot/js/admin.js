@@ -60,3 +60,18 @@ String.prototype.ucFirst = function() {
 	}
 	return str;
 };
+function _onChange(e, id, ready, type) {
+    $('#'+id+' optgroup').hide();
+    $('#'+id+' option').hide();
+    if (!ready || !$('#'+id+' optgroup[label="'+$(e).find("option:selected").text()+'"] option').length) {
+	$('#'+id+' option:selected').removeAttr('selected');
+	$('#'+id).val(null);
+	//$('#'+id+' optgroup[label="'+$(e).find("option:selected").text()+'"] option').eq(0).attr('selected', 'selected');
+    }
+    $('#'+id+' optgroup[label="'+$(e).find("option:selected").text()+'"]').show();
+    $('#'+id+' optgroup[label="'+$(e).find("option:selected").text()+'"] option').show();
+    
+    if (type == 'country') {
+	_onChange($('#AreaProvinceId'), 'AreaCityId');
+    }
+}
